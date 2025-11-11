@@ -1,20 +1,6 @@
 {
-    "name": "WeatherAPI - weather forecast",
+    "name": "WeatherAPI - weather forecast email",
     "nodes": [
-        {
-            "parameters": {
-                "url": "https://api.weatherapi.com/v1/forecast.xml?key=[YourWeatherAPIkeyHere]&q=[YourCityLocationHere]&days=3&aqi=yes&alerts=no",
-                "options": {}
-            },
-            "type": "n8n-nodes-base.httpRequest",
-            "typeVersion": 4.3,
-            "position": [
-                -1072,
-                -16
-            ],
-            "id": "eb8a5bf0-b1e9-45e7-be53-e205957c9912",
-            "name": "HTTP Request - current and 3 days forecast"
-        },
         {
             "parameters": {
                 "sendTo": "={{ $json.recipient }}",
@@ -27,16 +13,16 @@
             "type": "n8n-nodes-base.gmail",
             "typeVersion": 2.1,
             "position": [
-                -624,
-                -16
+                160,
+                80
             ],
-            "id": "5d622d8b-0d33-468c-a0c8-0cf585cbc28c",
+            "id": "813f8ca8-d3d4-4c54-8839-fcf085c52dfe",
             "name": "Send a message with forecast",
             "webhookId": "36e4171a-b691-4be7-9a1e-fda6c5a3b590",
             "credentials": {
                 "gmailOAuth2": {
-                    "id": "[Your Gmail OAuthAPI2 Credential ID Here]",
-                    "name": "[Your Gmail OAuthAPI2 Credentials Here]"
+                    "id": "9zuJeGiqOiBHhU8c",
+                    "name": "Your Credentials Here"
                 }
             }
         },
@@ -54,10 +40,10 @@
             "type": "n8n-nodes-base.scheduleTrigger",
             "typeVersion": 1.2,
             "position": [
-                -1296,
-                -16
+                -928,
+                80
             ],
-            "id": "a58708a0-a656-4e50-9f6e-3027af1952c5",
+            "id": "648bf31c-caf9-4896-97b9-4bd6b36a4790",
             "name": "Trigger everyday at 07:00"
         },
         {
@@ -67,31 +53,97 @@
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
             "position": [
-                -848,
-                -16
+                -256,
+                80
             ],
-            "id": "a690082e-8c88-436d-8f3b-b9ceee75a87a",
+            "id": "9d95e154-8583-46c4-8039-306f2d848f76",
             "name": "Parse XML from JSON"
+        },
+        {
+            "parameters": {
+                "content": "## Daily trigger set to 07:00 AM every day\nThe value set to 00 07 * * *\nIf you like to set different hour check the [Crontab Guru](https://crontab.guru/) or pick different type of the schedule.",
+                "height": 528,
+                "width": 320
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -1040,
+                -240
+            ],
+            "id": "820e02d0-24bf-4c38-9e5f-f3ba9e2c2187",
+            "name": "Sticky Note"
+        },
+        {
+            "parameters": {
+                "content": "## Pass your credentials and location\nPass you API key from [WeatherAPI.com](https://www.weatherapi.com) dashboard ans well as your location (the city name) as the request link parameters (replace corresponding sections including the square brackets).",
+                "height": 528,
+                "width": 320,
+                "color": 4
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -704,
+                -240
+            ],
+            "id": "71a59839-08fa-488d-8f90-109099911423",
+            "name": "Sticky Note1"
+        },
+        {
+            "parameters": {
+                "content": "## Provide recipient list\nAt the very bottom of the JavaScript code - constant named recipient - requires valid email address(es)",
+                "height": 528,
+                "width": 320,
+                "color": 4
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -368,
+                -240
+            ],
+            "id": "8a4c4f46-51a4-4748-924f-ad5e0acb4f4e",
+            "name": "Sticky Note2"
+        },
+        {
+            "parameters": {
+                "content": "## Provide your OAuth2 API credentials\nProvide your Gmail API credentials configured at your [GoogleCloud Console](https://console.cloud.google.com/apis) API interface and services section.\n\nImportant notes:\n1. If on self-hosted instance enable only Gmail API with minimum permissions - thanks ot that your application won't require Google verification and will be successfully running without a need to re-login every one or two weeks.\n2. If not sure how to configure your application and OAuth consent screen which are required to access Gmail via API and Gmail nodes - check this [Nate Herk | AI Automation\n](https://youtu.be/3Ai1EPznlAc?si=ri-HFHRPym07oZZX) tutorial",
+                "height": 528,
+                "width": 448,
+                "color": 4
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -32,
+                -240
+            ],
+            "id": "fba6d8d8-bf42-44a4-9267-f986765233a9",
+            "name": "Sticky Note3"
+        },
+        {
+            "parameters": {
+                "url": "https://api.weatherapi.com/v1/forecast.xml?key=[YourWeatherAPIkeyHere]&q=[YourCityLocationHere]&days=3&aqi=yes&alerts=no",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                -592,
+                80
+            ],
+            "id": "178428ee-3c80-4daf-96e7-5d1f440e6566",
+            "name": "HTTP Request - current weather and 3 days forecast"
         }
     ],
     "pinData": {},
     "connections": {
-        "HTTP Request - current and 3 days forecast": {
-            "main": [
-                [
-                    {
-                        "node": "Parse XML from JSON",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
         "Trigger everyday at 07:00": {
             "main": [
                 [
                     {
-                        "node": "HTTP Request - current and 3 days forecast",
+                        "node": "HTTP Request - current weather and 3 days forecast",
                         "type": "main",
                         "index": 0
                     }
@@ -108,29 +160,45 @@
                     }
                 ]
             ]
+        },
+        "HTTP Request - current weather and 3 days forecast": {
+            "main": [
+                [
+                    {
+                        "node": "Parse XML from JSON",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
         }
     },
-    "active": true,
+    "active": false,
     "settings": {
         "executionOrder": "v1",
         "callerPolicy": "workflowsFromSameOwner",
-        "executionTimeout": 300,
         "availableInMCP": false,
-        "errorWorkflow": "[Default Error Workflow Here]",
+        "errorWorkflow": "MyTRLONCCgCr7pRm",
         "timeSavedPerExecution": 2
     },
-    "versionId": "aa32b02a-8f33-491c-957c-365b80343c37",
+    "versionId": "968a8e6d-1c84-449c-af66-4046cfcfc342",
     "meta": {
         "templateCredsSetupCompleted": true,
         "instanceId": "71997fe6aa507966d2ebdaff65c10f9318fcf84da970dc34a9ecb642f76be052"
     },
-    "id": "xXy8uJJPJocMmQiv",
+    "id": "VAydUtHSV8EFWeFS",
     "tags": [
-        "WeatherAPI",
-        "Weather Forecast",
-        "Email",
-        "Gmail",
-        "Air Quality",
-        "XML Parsing"
+        {
+            "updatedAt": "2025-11-11T17:37:49.329Z",
+            "createdAt": "2025-11-11T17:37:49.329Z",
+            "id": "7JnLKciYSUSaiKH0",
+            "name": "Weather forecast"
+        },
+        {
+            "updatedAt": "2025-11-11T17:37:42.227Z",
+            "createdAt": "2025-11-11T17:37:42.227Z",
+            "id": "XICYtkXGZ2pExj0f",
+            "name": "API"
+        }
     ]
 }
