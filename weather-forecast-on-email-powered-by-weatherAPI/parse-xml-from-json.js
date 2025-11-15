@@ -175,7 +175,7 @@ function getAQIDescription(usEpaIndex) {
     if (index === 4) return { level: 'Unhealthy', color: '#ff0000', emoji: '❌' };
     if (index === 5) return { level: 'Very Unhealthy', color: '#8f3f97', emoji: '❌' };
     if (index === 6) return { level: 'Hazardous', color: '#7e0023', emoji: '☠️' };
-    if (index === undefined) return { level: 'Unknown', color: '#999999', emoji: '❓' };
+    return { level: 'Unknown', color: '#999999', emoji: '❓' };
 }
 
 const currentAQI = getAQIDescription(current_us_epa_index);
